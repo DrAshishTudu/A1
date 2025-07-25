@@ -15,18 +15,19 @@ st.title("📊 Offline Trading Scanner (CSV Upload)")
 def fetch_data_from_csv(uploaded_file):
     df = pd.read_csv(uploaded_file)
 
-    # ✅ Clean up column names
+    # ✅ Fix column names: remove spaces, lowercase
     df.columns = [col.strip().capitalize() for col in df.columns]
 
-    # ✅ Standardize datetime column
+    # ✅ Standardize the datetime column
     if 'Date' in df.columns:
         df.rename(columns={'Date': 'Datetime'}, inplace=True)
     elif 'Timestamp' in df.columns:
         df.rename(columns={'Timestamp': 'Datetime'}, inplace=True)
 
+    # ✅ Convert datetime
     df["Datetime"] = pd.to_datetime(df["Datetime"])
     df = df.sort_values("Datetime").reset_index(drop=True)
-
+    
     return df
 
 
