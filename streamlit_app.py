@@ -61,7 +61,7 @@ def predict_price(df):
 
     df = df.dropna(subset=["timestamp", "close"]).copy()
     df["timestamp"] = pd.to_datetime(df["timestamp"])
-    df["timestamp"] = df["timestamp"].view(np.int64) // 10**9
+    df["timestamp"] = df["timestamp"].astype(np.int64) // 10**9
 
     X = df["timestamp"].values.reshape(-1, 1)
     y = df["close"].values
